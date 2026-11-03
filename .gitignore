@@ -43,25 +43,4 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
-# Angular
-node_modules/
-dist/
-.angular/
 
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-
-# Variables de entorno
-.env
-.env.*
-
-# Sistema operativo
-.DS_Store
-Thumbs.db
-
-# Editores
-.vscode/
-.idea/
