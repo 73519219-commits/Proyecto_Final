@@ -1,0 +1,71 @@
+﻿<section class="page-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4 p-lg-5">
+            <div class="mb-4 text-center">
+              <h2 class="fw-bold text-dark">Registro de usuario</h2>
+              <p class="text-secondary mb-0">Únete como negocio, comedor popular o voluntario.</p>
+            </div>
+
+            <div class="alert alert-success" *ngIf="mensaje()">
+              {{ mensaje() }}
+            </div>
+
+            <form [formGroup]="registroForm" (ngSubmit)="guardarUsuario()" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nombre completo</label>
+                  <input class="form-control" formControlName="nombre" />
+                  <small class="text-danger" *ngIf="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">Campo obligatorio.</small>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Correo electrónico</label>
+                  <input class="form-control" type="email" formControlName="email" />
+                  <small class="text-danger" *ngIf="registroForm.get('email')?.invalid && registroForm.get('email')?.touched">Correo inválido.</small>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Contraseña</label>
+                  <input class="form-control" type="password" formControlName="password" />
+                  <small class="text-danger" *ngIf="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">Mínimo 6 caracteres.</small>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Tipo de usuario</label>
+                  <select class="form-select" formControlName="tipo">
+                    <option value="Negocio">Negocio</option>
+                    <option value="Comedor popular">Comedor popular</option>
+                    <option value="Voluntario">Voluntario</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Teléfono</label>
+                  <input class="form-control" formControlName="telefono" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Dirección</label>
+                  <input class="form-control" formControlName="direccion" />
+                </div>
+
+                <div class="col-12" *ngIf="tipoSeleccionado !== 'Voluntario'">
+                  <label class="form-label">Nombre de la organización o negocio</label>
+                  <input class="form-control" formControlName="empresa" />
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-outline-secondary" type="button" routerLink="/">Cancelar</button>
+                <button class="btn btn-primary text-white" type="submit">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

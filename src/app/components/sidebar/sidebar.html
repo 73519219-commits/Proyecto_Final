@@ -1,0 +1,19 @@
+﻿<aside class="sidebar bg-white shadow-sm">
+  <div class="sidebar-header">
+    <span class="badge rounded-pill bg-success-subtle text-success-emphasis">
+      {{ usuarioActual()?.tipo || 'Visitante' }}
+    </span>
+  </div>
+
+  <nav class="nav flex-column gap-2">
+    <a
+      *ngFor="let item of itemsMenu()"
+      class="nav-link"
+      [routerLink]="[item.ruta]"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: item.ruta === '/' }"
+    >
+      {{ item.label }}
+    </a>
+  </nav>
+</aside>

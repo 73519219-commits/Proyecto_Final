@@ -1,0 +1,62 @@
+﻿<section class="page-section">
+  <div class="container-fluid">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Voluntarios</h3>
+            <div class="list-group">
+              <div class="list-group-item" *ngFor="let voluntario of voluntarios()">
+                <div class="d-flex justify-content-between align-items-center gap-3">
+                  <div>
+                    <strong>{{ voluntario.nombre }}</strong><br>
+                    <small class="text-secondary">{{ voluntario.zona }} · {{ voluntario.disponibilidad }}</small>
+                  </div>
+                  <span class="badge rounded-pill bg-success-subtle text-success-emphasis" *ngIf="voluntario.estado === 'Disponible'">Disponible</span>
+                  <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis" *ngIf="voluntario.estado === 'Ocupado'">Ocupado</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Entregas pendientes</h3>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Dirección</th>
+                    <th>Horario</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let entrega of entregas()">
+                    <td>{{ entrega.direccion }}</td>
+                    <td>{{ entrega.horario }}</td>
+                    <td>
+                      <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis" *ngIf="entrega.estado === 'Pendiente'">Pendiente</span>
+                      <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis" *ngIf="entrega.estado === 'En tránsito'">En tránsito</span>
+                      <span class="badge rounded-pill bg-success-subtle text-success-emphasis" *ngIf="entrega.estado === 'Entregada'">Entregada</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-outline-success" type="button" (click)="aceptarEntrega(entrega.id)">Aceptar</button>
+                        <button class="btn btn-outline-primary" type="button" (click)="cambiarEstado(entrega.id, 'Entregada')">Entregado</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

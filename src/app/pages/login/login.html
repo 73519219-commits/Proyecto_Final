@@ -1,0 +1,42 @@
+﻿<section class="auth-shell">
+  <div class="container d-flex justify-content-center align-items-center min-vh-75 py-5">
+    <div class="card auth-card shadow-sm border-0 w-100" style="max-width: 480px;">
+      <div class="card-body p-4 p-lg-5">
+        <div class="text-center mb-4">
+          <div class="brand-icon mx-auto mb-3">🍲</div>
+          <h2 class="fw-bold text-dark">Iniciar sesión</h2>
+          <p class="text-secondary mb-0">Accede al sistema de donaciones</p>
+        </div>
+
+        <form [formGroup]="loginForm" (ngSubmit)="ingresar()" novalidate>
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com" />
+            <div class="text-danger small mt-1" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+              Ingrese un correo válido.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="********" />
+            <div class="text-danger small mt-1" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              La contraseña es obligatoria.
+            </div>
+          </div>
+
+          <div class="alert alert-danger py-2 mb-3" *ngIf="errorMessage()">
+            {{ errorMessage() }}
+          </div>
+
+          <button class="btn btn-primary w-100 text-white" type="submit">Ingresar</button>
+        </form>
+
+        <div class="text-center mt-4">
+          <span class="text-secondary">¿No tienes cuenta?</span>
+          <a class="text-success fw-semibold ms-2" routerLink="/registro">Regístrate</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,107 @@
+﻿<section class="page-section">
+  <div class="container-fluid">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Registrar donación</h3>
+            <div class="alert alert-success" *ngIf="mensaje()">{{ mensaje() }}</div>
+
+            <form [formGroup]="donacionForm" (ngSubmit)="guardarDonacion()" novalidate>
+              <div class="mb-3">
+                <label class="form-label">Nombre del alimento</label>
+                <input class="form-control" formControlName="nombreAlimento" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Descripción</label>
+                <textarea class="form-control" rows="3" formControlName="descripcion"></textarea>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Cantidad</label>
+                  <input class="form-control" type="number" min="1" formControlName="cantidad" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Unidad</label>
+                  <select class="form-select" formControlName="unidadMedida">
+                    <option value="kg">kg</option>
+                    <option value="unidad">unidad</option>
+                    <option value="caja">caja</option>
+                    <option value="bolsa">bolsa</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 mt-3">
+                <label class="form-label">Fecha de vencimiento</label>
+                <input class="form-control" type="date" formControlName="fechaVencimiento" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Dirección de recojo</label>
+                <input class="form-control" formControlName="direccionRecogida" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Horario disponible</label>
+                <input class="form-control" formControlName="horarioDisponible" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <select class="form-select" formControlName="estado">
+                  <option value="Disponible">Disponible</option>
+                  <option value="Reservada">Reservada</option>
+                  <option value="Recogida">Recogida</option>
+                  <option value="Cancelada">Cancelada</option>
+                </select>
+              </div>
+
+              <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-outline-secondary" type="button" (click)="resetFormulario()">Cancelar</button>
+                <button class="btn btn-primary text-white" type="submit">Guardar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Listado de donaciones</h3>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Alimento</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of donaciones()">
+                    <td>
+                      <strong>{{ item.nombreAlimento }}</strong><br>
+                      <small class="text-secondary">{{ item.direccionRecogida }}</small>
+                    </td>
+                    <td>{{ item.cantidad }} {{ item.unidadMedida }}</td>
+                    <td>
+                      <span class="badge rounded-pill bg-success-subtle text-success-emphasis" *ngIf="item.estado === 'Disponible'">Disponible</span>
+                      <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis" *ngIf="item.estado === 'Reservada'">Reservada</span>
+                      <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis" *ngIf="item.estado === 'Recogida'">Recogida</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-outline-primary" type="button" (click)="editarDonacion(item)">Editar</button>
+                        <button class="btn btn-outline-danger" type="button" (click)="eliminarDonacion(item.id)">Eliminar</button>
+                        <button class="btn btn-outline-success" type="button" (click)="cambiarEstado(item.id, 'Recogida')">Recoger</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

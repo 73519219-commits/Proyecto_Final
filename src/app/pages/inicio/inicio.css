@@ -1,0 +1,26 @@
+﻿.inicio-page {
+  max-width: 1250px;
+  margin: 0 auto;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, rgba(46, 139, 87, 0.08), rgba(245, 158, 11, 0.08));
+  border-radius: 1.5rem;
+  padding: 2rem;
+}
+
+.card-icon {
+  font-size: 2rem;
+}
+
+.mini-card {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.info-card {
+  border-radius: 1.1rem;
+}

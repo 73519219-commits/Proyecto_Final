@@ -1,0 +1,13 @@
+﻿.footer-custom {
+  background: #173b2d;
+  color: #f3f8f5;
+}
+
+.footer-link {
+  color: #dfeee5;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+}

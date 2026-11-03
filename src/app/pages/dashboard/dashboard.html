@@ -1,0 +1,41 @@
+﻿<section class="page-section">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <span class="badge rounded-pill bg-success-subtle text-success-emphasis mb-2">Panel principal</span>
+        <h2 class="fw-bold mb-1">Dashboard</h2>
+      </div>
+      <div class="text-secondary" *ngIf="usuarioActual() as usuario">
+        Bienvenido, <strong>{{ usuario.nombre }}</strong>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-xl-3" *ngFor="let item of resumen()">
+        <app-tarjetas [titulo]="item.titulo" [valor]="item.valor" [descripcion]="item.descripcion" [color]="item.color" [icono]="item.icono"></app-tarjetas>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body p-4">
+            <h4 class="fw-bold mb-3">Resumen según el rol</h4>
+            <div *ngIf="tipoUsuario() === 'Administrador'">
+              <p class="text-secondary">Puedes supervisar todos los usuarios, revisando donaciones y apoyando la coordinación general.</p>
+            </div>
+            <div *ngIf="tipoUsuario() === 'Negocio'">
+              <p class="text-secondary">Gestiona tus alimentos disponibles y confirma la entrega con la comunidad.</p>
+            </div>
+            <div *ngIf="tipoUsuario() === 'Comedor popular'">
+              <p class="text-secondary">Consulta donaciones disponibles y gestiona solicitudes para atender a más personas.</p>
+            </div>
+            <div *ngIf="tipoUsuario() === 'Voluntario'">
+              <p class="text-secondary">Revisa entregas pendientes y confirma la entrega de los alimentos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
