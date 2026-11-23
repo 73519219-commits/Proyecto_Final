@@ -1,4 +1,4 @@
-﻿# Variables y credenciales privadas
+# Variables y credenciales privadas
 .env
 .env.*
 !.env.example
