@@ -1,0 +1,66 @@
+﻿@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --verde-principal: #2e8b57;
+  --verde-oscuro: #1f5f3d;
+  --verde-claro: #eafaf1;
+  --naranja-principal: #f59e0b;
+  --blanco: #ffffff;
+  --gris-fondo: #f5f7f6;
+  --gris-texto: #4b5563;
+  --sombra: 0 10px 30px rgba(15, 39, 26, 0.08);
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--gris-fondo);
+  color: var(--gris-texto);
+}
+
+body {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+.btn-primary {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-principal);
+}
+
+.btn-primary:hover {
+  background-color: #e08f00;
+  border-color: #e08f00;
+}
+
+.btn-success {
+  background-color: var(--verde-principal);
+  border-color: var(--verde-principal);
+}
+
+.btn-success:hover {
+  background-color: var(--verde-oscuro);
+  border-color: var(--verde-oscuro);
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: var(--sombra);
+}
+
+.text-success-custom {
+  color: var(--verde-principal) !important;
+}
+
+.bg-success-soft {
+  background-color: var(--verde-claro);
+}

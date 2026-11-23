@@ -1,0 +1,13 @@
+﻿.icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 1.35rem;
+}
+
+.card {
+  border-radius: 1rem;
+}

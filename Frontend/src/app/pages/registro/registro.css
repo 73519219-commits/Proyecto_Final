@@ -1,0 +1,10 @@
+﻿.page-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.8rem;
+  padding: 0.72rem 0.9rem;
+}

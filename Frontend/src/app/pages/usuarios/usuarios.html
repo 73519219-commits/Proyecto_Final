@@ -1,0 +1,109 @@
+﻿<section class="page-section">
+  <div class="container-fluid">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card shadow-sm border-0 h-100">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">{{ editandoId() ? 'Editar usuario' : 'Gestionar usuarios' }}</h3>
+            <div class="alert alert-success" *ngIf="mensaje()">{{ mensaje() }}</div>
+            <div class="alert alert-danger" *ngIf="error()">{{ error() }}</div>
+
+            <form [formGroup]="usuarioForm" (ngSubmit)="guardarUsuario()" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nombres</label>
+                  <input class="form-control" maxlength="100" formControlName="nombres" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Apellidos</label>
+                  <input class="form-control" maxlength="100" formControlName="apellidos" />
+                </div>
+              </div>
+              <div class="mb-3 mt-3">
+                <label class="form-label">Correo</label>
+                <input class="form-control" type="email" maxlength="320" formControlName="email" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">{{ editandoId() ? 'Contraseña (opcional)' : 'Contraseña' }}</label>
+                <input class="form-control" type="password" formControlName="password" />
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Tipo</label>
+                  <select class="form-select" formControlName="tipo">
+                    <option value="Administrador" *ngIf="editandoId() !== null">Administrador</option>
+                    <option value="Negocio">Negocio</option>
+                    <option value="Comedor popular">Comedor popular</option>
+                    <option value="Voluntario">Voluntario</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Estado</label>
+                  <select class="form-select" formControlName="estado">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3 mt-3">
+                <label class="form-label">Teléfono</label>
+                <input class="form-control" maxlength="30" formControlName="telefono" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Dirección</label>
+                <input class="form-control" maxlength="250" formControlName="direccion" />
+              </div>
+
+              <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-outline-secondary" type="button" (click)="resetFormulario()">Cancelar</button>
+                <button class="btn btn-primary text-white" type="submit">{{ editandoId() ? 'Actualizar' : 'Guardar' }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Lista de usuarios</h3>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let usuario of usuarios()">
+                    <td>
+                      <strong>{{ usuario.nombre }}</strong><br>
+                      <small class="text-secondary">{{ usuario.email }}</small>
+                    </td>
+                    <td>{{ usuario.tipo }}</td>
+                    <td>
+                      <span class="badge rounded-pill bg-success-subtle text-success-emphasis" *ngIf="usuario.estado === 'Activo'">Activo</span>
+                      <span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis" *ngIf="usuario.estado === 'Inactivo'">Inactivo</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-outline-primary" type="button" (click)="editarUsuario(usuario)">Editar</button>
+                        <button class="btn btn-outline-danger" type="button" (click)="eliminarUsuario(usuario.id)" *ngIf="usuario.estado === 'Activo'">Eliminar</button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="usuarios().length === 0">
+                    <td colspan="4" class="text-center text-secondary py-4">No hay usuarios para mostrar.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+﻿.auth-shell {
+  width: 100%;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #2e8b57, #f59e0b);
+  font-size: 2rem;
+}
+
+.auth-card {
+  border-radius: 1.25rem;
+}
