@@ -11,8 +11,10 @@ class EntregaBase(BaseModel):
     voluntario_id: int
     fecha_asignacion: date
     fecha_entrega: date | None = None
-    estado: Literal["pendiente", "asignada", "en_transito", "entregada", "cancelada"] = "pendiente"
+    estado: Literal["abierta", "aceptada", "recogida", "entregada", "cancelada"] = "abierta"
     observaciones: str | None = Field(default=None, max_length=300)
+    tipo_apoyo: Literal["recoger", "trasladar", "ambos"] = "ambos"
+    tipo: Literal["recoger", "trasladar", "ambos"] = "ambos"
 
 
 class EntregaCreate(EntregaBase):
@@ -24,13 +26,21 @@ class EntregaUpdate(BaseModel):
     voluntario_id: int | None = None
     fecha_asignacion: date | None = None
     fecha_entrega: date | None = None
-    estado: Literal["pendiente", "asignada", "en_transito", "entregada", "cancelada"] | None = None
+    estado: Literal["abierta", "aceptada", "recogida", "entregada", "cancelada"] | None = None
     observaciones: str | None = Field(default=None, max_length=300)
+    tipo_apoyo: Literal["recoger", "trasladar", "ambos"] | None = None
+    tipo: Literal["recoger", "trasladar", "ambos"] | None = None
 
 
 class EntregaOut(EntregaBase):
     id: int
+    telefono_negocio: str | None = None
+    telefono_comedor: str | None = None
+    direccion_recojo: str | None = None
+    cantidad: int | None = None
+    unidad: str | None = None
+    hora_disponible: str | None = None
 
 
 class EntregaEstadoUpdate(BaseModel):
-    estado: Literal["pendiente", "asignada", "en_transito", "entregada", "cancelada"]
+    estado: Literal["abierta", "aceptada", "recogida", "entregada", "cancelada"]

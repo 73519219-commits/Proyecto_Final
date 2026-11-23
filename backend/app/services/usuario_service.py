@@ -5,7 +5,10 @@ from typing import Any
 from fastapi import HTTPException, status
 
 from app.core.seguridad import hash_password, verify_password
-from app.repositories.usuario_repository import UsuarioRepository
+from app.repositories.usuario_repository import (
+    UsuarioCorreoDuplicado,
+    UsuarioRepository,
+)
 from app.schemas.usuario import UsuarioCreate, UsuarioLogin, UsuarioUpdate
 
 
@@ -27,16 +30,23 @@ class UsuarioService:
             "telefono": datos.telefono,
             "direccion": datos.direccion,
             "rol": datos.rol,
+            "disponible": datos.disponible if datos.rol == "voluntario" else False,
             "estado": datos.estado,
         }
 
-        creado = UsuarioRepository.crear(usuario)
+        try:
+            creado = UsuarioRepository.crear(usuario)
+        except UsuarioCorreoDuplicado as error:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="El correo ya está registrado.",
+            ) from error
         creado.pop("password_hash", None)
         return creado
 
     @staticmethod
-    def listar_usuarios() -> list[dict[str, Any]]:
-        usuarios = UsuarioRepository.listar()
+    def listar_usuarios(rol: str | None = None) -> list[dict[str, Any]]:
+        usuarios = UsuarioRepository.listar(rol)
         for usuario in usuarios:
             usuario.pop("password_hash", None)
         return usuarios

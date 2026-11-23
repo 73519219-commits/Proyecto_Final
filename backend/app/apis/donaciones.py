@@ -46,4 +46,21 @@ def actualizar_donacion(
     donacion = DonacionService.buscar_por_id(donacion_id)
     if usuario_actual["rol"] != "admin" and donacion["usuario_negocio_id"] != usuario_actual["id"]:
         raise HTTPException(status_code=403, detail="Solo puede editar sus propias donaciones.")
+    if (
+        usuario_actual["rol"] == "negocio"
+        and datos.usuario_negocio_id is not None
+        and datos.usuario_negocio_id != usuario_actual["id"]
+    ):
+        raise HTTPException(status_code=403, detail="Un negocio no puede transferir la propiedad de una donación.")
     return DonacionService.actualizar_donacion(donacion_id, datos)
+
+
+@router.delete("/{donacion_id}")
+def eliminar_donacion(
+    donacion_id: int,
+    usuario_actual: dict = Depends(get_current_user),
+):
+    donacion = DonacionService.buscar_por_id(donacion_id)
+    if usuario_actual["rol"] != "admin" and donacion["usuario_negocio_id"] != usuario_actual["id"]:
+        raise HTTPException(status_code=403, detail="Solo puede cancelar sus propias donaciones.")
+    return DonacionService.eliminar_donacion(donacion_id)

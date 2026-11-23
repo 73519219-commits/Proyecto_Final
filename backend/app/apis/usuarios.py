@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 from app.core.seguridad import create_access_token, get_current_user, require_roles
 from app.schemas.usuario import (
+    RolDto,
     UsuarioCreate,
     UsuarioLogin,
     UsuarioLoginResponse,
@@ -33,13 +34,45 @@ def login(usuario_login: UsuarioLogin):
     return {"access_token": token, "token_type": "bearer", "usuario": usuario}
 
 
-@router.get("/usuarios", response_model=list[UsuarioOut], dependencies=[Depends(require_roles(["admin"]))])
-def listar_usuarios():
-    return UsuarioService.listar_usuarios()
+@router.get("/usuarios", response_model=list[UsuarioOut])
+def listar_usuarios(
+    rol: RolDto | None = Query(default=None),
+    _: dict = Depends(require_roles(["admin"])),
+):
+    return UsuarioService.listar_usuarios(rol)
 
 
 @router.get("/usuarios/me", response_model=UsuarioOut)
 def obtener_mi_perfil(usuario_actual: dict = Depends(get_current_user)):
     return UsuarioService.buscar_por_id(usuario_actual["id"])
+
+
+@router.patch("/usuarios/me/disponible", response_model=UsuarioOut)
+def actualizar_disponibilidad(
+    disponible: bool,
+    usuario_actual: dict = Depends(require_roles(["voluntario"])),
+):
+    return UsuarioService.actualizar_usuario(
+        usuario_actual["id"],
+        UsuarioUpdate(disponible=disponible),
+    )
+
+
+@router.put("/usuarios/{usuario_id}", response_model=UsuarioOut)
+@router.patch("/usuarios/{usuario_id}", response_model=UsuarioOut)
+def actualizar_usuario(
+    usuario_id: int,
+    datos: UsuarioUpdate,
+    _: dict = Depends(require_roles(["admin"])),
+):
+    return UsuarioService.actualizar_usuario(usuario_id, datos)
+
+
+@router.delete("/usuarios/{usuario_id}")
+def eliminar_usuario(
+    usuario_id: int,
+    _: dict = Depends(require_roles(["admin"])),
+):
+    return UsuarioService.eliminar_usuario(usuario_id)
 
 

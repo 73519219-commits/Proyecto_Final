@@ -1,0 +1,101 @@
+﻿<section class="page-section">
+  <div class="container-fluid">
+    <div class="alert alert-success" *ngIf="mensaje()">
+      {{ mensaje() }}
+    </div>
+    <div class="alert alert-danger" *ngIf="error()">
+      {{ error() }}
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Donaciones disponibles</h3>
+            <div class="mb-3" *ngIf="esComedor()">
+              <label class="form-label" for="tipoApoyo">Tipo de apoyo</label>
+              <select id="tipoApoyo" class="form-select" [value]="tipoApoyoSolicitud()" (change)="tipoApoyoSolicitud.set($any($event.target).value)">
+                <option value="recoger">Recoger</option>
+                <option value="trasladar">Trasladar</option>
+                <option value="ambos">Ambos</option>
+              </select>
+            </div>
+            <div class="list-group">
+              <div class="list-group-item" *ngFor="let item of donaciones()">
+                <div class="d-flex justify-content-between align-items-start gap-3">
+                  <div>
+                    <h6 class="fw-bold mb-1">{{ item.nombreAlimento }}</h6>
+                    <p class="mb-1 text-secondary">{{ item.descripcion }}</p>
+                    <small class="text-muted">{{ item.cantidad }} {{ item.unidadMedida }} · {{ item.direccionRecogida }}</small>
+                  </div>
+                  <button class="btn btn-primary btn-sm text-white" type="button" (click)="solicitarDonacion(item)" *ngIf="esComedor()">Solicitar</button>
+                </div>
+              </div>
+              <div class="list-group-item text-center text-secondary py-4" *ngIf="donaciones().length === 0">
+                No hay donaciones disponibles por el momento.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card shadow-sm border-0">
+          <div class="card-body p-4">
+            <h3 class="fw-bold mb-3">Mis solicitudes</h3>
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                    <th>Donación</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of solicitudes()">
+                    <td>#{{ item.donacionId }}</td>
+                    <td>
+                      <ng-container *ngIf="editandoId() === item.id; else cantidadActual">
+                        <input
+                          class="form-control form-control-sm"
+                          type="number"
+                          min="1"
+                          aria-label="Cantidad solicitada"
+                          [formControl]="cantidadEdicion"
+                        />
+                      </ng-container>
+                      <ng-template #cantidadActual>{{ item.cantidadSolicitada }}</ng-template>
+                    </td>
+                    <td>
+                      <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis" *ngIf="item.estado === 'Pendiente'">Pendiente</span>
+                      <span class="badge rounded-pill bg-success-subtle text-success-emphasis" *ngIf="item.estado === 'Aprobada'">Aprobada</span>
+                      <span class="badge rounded-pill bg-danger-subtle text-danger-emphasis" *ngIf="item.estado === 'Rechazada'">Rechazada</span>
+                      <span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis" *ngIf="item.estado === 'Cancelada'">Cancelada</span>
+                    </td>
+                    <td>
+                      <div class="d-flex flex-wrap gap-1">
+                        <ng-container *ngIf="editandoId() === item.id; else accionesSolicitud">
+                          <button class="btn btn-primary btn-sm text-white" type="button" (click)="guardarEdicionSolicitud()" [disabled]="cantidadEdicion.invalid">Guardar</button>
+                          <button class="btn btn-outline-secondary btn-sm" type="button" (click)="cancelarEdicion()">Descartar</button>
+                        </ng-container>
+                        <ng-template #accionesSolicitud>
+                          <button class="btn btn-outline-primary btn-sm" type="button" (click)="editarSolicitud(item.id, item.cantidadSolicitada)" *ngIf="item.estado === 'Pendiente'">Editar</button>
+                          <button class="btn btn-outline-danger btn-sm" type="button" (click)="cancelarSolicitud(item.id)" *ngIf="item.estado === 'Pendiente' || item.estado === 'Aprobada'">Cancelar</button>
+                        </ng-template>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngIf="solicitudes().length === 0">
+                    <td colspan="4" class="text-center text-secondary py-4">No hay solicitudes registradas.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

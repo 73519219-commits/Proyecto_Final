@@ -7,13 +7,13 @@ from pydantic import BaseModel, Field
 
 
 class DonacionBase(BaseModel):
-    nombre_alimento: str = Field(..., min_length=2)
-    descripcion: str = Field(..., min_length=5)
+    nombre_alimento: str = Field(..., min_length=2, max_length=150)
+    descripcion: str = Field(..., min_length=5, max_length=500)
     cantidad: int = Field(..., gt=0)
-    unidad: str = Field(..., min_length=1)
+    unidad: str = Field(..., min_length=1, max_length=50)
     fecha_vencimiento: date
-    direccion_recojo: str = Field(..., min_length=5)
-    hora_disponible: str = Field(..., min_length=3)
+    direccion_recojo: str = Field(..., min_length=5, max_length=250)
+    hora_disponible: str = Field(..., min_length=3, max_length=100)
     estado: Literal["disponible", "reservada", "cancelada", "entregada"] = "disponible"
     usuario_negocio_id: int
 
@@ -23,13 +23,13 @@ class DonacionCreate(DonacionBase):
 
 
 class DonacionUpdate(BaseModel):
-    nombre_alimento: str | None = Field(default=None, min_length=2)
-    descripcion: str | None = Field(default=None, min_length=5)
+    nombre_alimento: str | None = Field(default=None, min_length=2, max_length=150)
+    descripcion: str | None = Field(default=None, min_length=5, max_length=500)
     cantidad: int | None = Field(default=None, gt=0)
-    unidad: str | None = Field(default=None, min_length=1)
+    unidad: str | None = Field(default=None, min_length=1, max_length=50)
     fecha_vencimiento: date | None = None
-    direccion_recojo: str | None = Field(default=None, min_length=5)
-    hora_disponible: str | None = Field(default=None, min_length=3)
+    direccion_recojo: str | None = Field(default=None, min_length=5, max_length=250)
+    hora_disponible: str | None = Field(default=None, min_length=3, max_length=100)
     estado: Literal["disponible", "reservada", "cancelada", "entregada"] | None = None
     usuario_negocio_id: int | None = None
 
